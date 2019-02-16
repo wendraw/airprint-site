@@ -29,7 +29,7 @@ def login():
 def clear():
     if request.method == 'POST':
         if clear_cache():
-            return render_template('login.html')
+            return render_template('clear_succeed.html')
     return render_template('login.html')
 
 
