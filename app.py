@@ -12,13 +12,15 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
 def login():
-    result = None
+    result = False
     if request.method == 'POST':
         ssid = request.form['ssid']
         psk = request.form['password']
 
         # have a bug, wpa_cli command just check psk have 8 word.
         result = connect_wifi(ssid, psk)
+        if result:
+            return render_template('conn_succeed.html', result=result)
 
     return render_template('login.html', result=result)
 
@@ -26,7 +28,8 @@ def login():
 @app.route('/clear', methods=['POST', 'GET'])
 def clear():
     if request.method == 'POST':
-        clear_cache()
+        if clear_cache():
+            return render_template('login.html')
     return render_template('login.html')
 
 
@@ -38,7 +41,8 @@ def connect_wifi(ssid, psk):
 
 def clear_cache():
     cmdstr = 'sh /usr/lib/Airprint_Hub/clear_cache.sh'
-    execute_command(cmdstr)
+    result_cmd = execute_command(cmdstr)
+    return result_cmd == 'OK\n'
 
 
 def execute_command(cmdstring, cwd=None, timeout=None, shell=True):
