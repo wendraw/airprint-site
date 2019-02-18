@@ -34,13 +34,13 @@ def clear():
 
 
 def connect_wifi(ssid, psk):
-    cmdstring = 'sh /usr/lib/Airprint_Hub/connect_wifi.sh ' + ssid + ' ' + psk
+    cmdstring = 'sh /usr/lib/Airprint_Hub/wifi_module/bridging_module/connect_wifi.sh ' + ssid + ' ' + psk
     result_cmd = execute_command(cmdstring)
     return result_cmd == 'OK\n'
 
 
 def clear_cache():
-    cmdstr = 'sh /usr/lib/Airprint_Hub/clear_cache.sh'
+    cmdstr = 'sh /usr/lib/Airprint_Hub/wifi_module/bridging_module/clear_cache.sh'
     result_cmd = execute_command(cmdstr)
     return result_cmd == 'OK\n'
 
@@ -77,5 +77,4 @@ def execute_command(cmdstring, cwd=None, timeout=None, shell=True):
 
 
 if __name__ == '__main__':
-    app.debug = True
     app.run('192.168.222.1', 80)
